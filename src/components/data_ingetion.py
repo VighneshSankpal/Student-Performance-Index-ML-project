@@ -46,12 +46,3 @@ class DataIngetion():
             print(e)
 
 
-
-from src.components.data_transformation import DataTransformation
-
-if __name__=='__main__':
-    obj = DataIngetion()
-    train_data, test_data = obj.initiate_data_ingetion() 
-
-    obj = DataTransformation()
-    obj.save_preprocessor_object()

@@ -15,9 +15,9 @@ class DataTransformation:
     def __init__(self):
         self.transformation_config= DataTransformationConfig()
     
-    def to_lower_case(self,X):
+    def _to_lower_case(self,X):
         return np.char.lower(X.astype(str))
-    def get_column_transformer_obj(self):
+    def _get_column_transformer_obj(self):
         try:
             # We Separet the dataset into two types as,
             #  1. Numeric columns
@@ -30,7 +30,7 @@ class DataTransformation:
             
             # Pipeline for Categorical type features.
             cat_pipeline = Pipeline(steps=[('impute',SimpleImputer(strategy='most_frequent')),
-                                           ('lowercase',FunctionTransformer(self.to_lower_case,validate=False)),
+                                           ('lowercase',FunctionTransformer(self._to_lower_case,validate=False)),
                                            ('encoder',OneHotEncoder(handle_unknown='error',sparse_output=False)),
                                            
                                     ])
@@ -63,10 +63,14 @@ class DataTransformation:
         Save the object in pickle format and return the path
         '''
         path = os.path.join('artifacts','preprocessor.pkl')
+        print("Check exist or not....")
+        if os.path.isfile(path):
+            print("Pre-processor Model already Exist.")
+        
+        else:
+            print("Preprocessor Object saved successfully!")
+            joblib.dump(filename=path,value=self._get_column_transformer_obj())
 
-        joblib.dump(filename=path,value=self.get_column_transformer_obj())
-
-        print("Preprocessor Object saved successfully!")
         return path
 
 
