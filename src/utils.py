@@ -7,6 +7,7 @@ import pandas as pd
 
 
 
+
 def start_process():
     '''
     This method start the project of data collection, preprocessing and model building.
@@ -50,8 +51,13 @@ def predict(data):
     y_pred =  MODEL.predict(df)
     print("Prediction is")
     print(y_pred[0])
+    y_pred = y_pred[0]
+    if y_pred<0:
+        y_pred=0
+    elif y_pred>100:
+        y_pred=100
 
-    return round( y_pred[0],2)
+    return round( y_pred,2)
 
 
 
